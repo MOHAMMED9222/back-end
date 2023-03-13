@@ -1,4 +1,5 @@
 # Start your own "Can of Books" App
+**Contributer Cheryl McCalop**
 
 This repository has starter code to begin work on creating your own online bookshelf.
 
