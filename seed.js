@@ -37,6 +37,11 @@ db.once('open', function () {
      
     });
     console.log('DONT BE TRICKIN was added');
+    await Book.create({
+      title: 'LIVE STRONG',
+      description: 'RED',
+      status: true,
+    });
     mongoose.disconnect();
   }
   
