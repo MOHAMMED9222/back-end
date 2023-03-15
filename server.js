@@ -42,16 +42,16 @@ app.post('/Book', postBook)
 // http://localhost:3001/cats/637bceabc57c693faee21e8f
 // I access the value 637bceabc57c693faee21e8f with
 // req.params.id
-// 'id' is the variable I declared here:
 app.delete('/Book/:id', deleteBook);
+app.put('/Book/:id', putBook);
 
 app.get('/Book', getBook);
 async function getBook(req, res, next) {
   try {
     let results = await Book.find({});
     res.status(200).send(results);
-  } catch(err) {
-    next(err);
+  } catch(error) {
+    next(error);
   }
 }
 
@@ -64,20 +64,40 @@ async function deleteBook(req, res, next) {
     await Book.findByIdAndDelete(id);
     res.status(200).send('Book deleted');
     // find out where validation goes
-  } catch(err) {
-    next(err);
+  } catch(error) {
+    next(error);
   }
 }
 
+async function putBook(req, res, next) {
+  try {
+    let id = req.params.id;
+    let updatedBook = req.body;
+
+    // find by idandupdate method takes in 3 arguments:
+    // -1 id of the thing in the database to update 
+    // -2 updated data object 
+    // -3. options object, 
+    let updatedBookFromDatabase = await Book.findByIdAndUpdate(id, updatedBook, { new: true, overwrite: true});
+    res.status(200).send(updatedBookFromDatabase);
+  } catch(error) {
+    next(error);
+  }
+} 
 
 async function postBook(req, res, next) {
   console.log(req.body);
   try {
     // we want to add cats to our database
     let createdBook = await Book.create(req.body);
+    // .body is where your putting the .json data
+    // not using a query string because its too much data
+    // must need app.use(express.json()); above
+
     res.status(200).send(createdBook);
-  } catch(err) {
-    next(err);
+    // all systems go
+  } catch(error) {
+    next(error);
   }
 }
 
