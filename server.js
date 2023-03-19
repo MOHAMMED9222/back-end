@@ -3,7 +3,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const app = express();
+const app = express('./auth');
+const verifyUser = require('./modules/auth');
 //middleware
 app.use(cors());
 const Book = require('./modules/Book.js');
@@ -44,6 +45,18 @@ app.post('/Book', postBook)
 // req.params.id
 app.delete('/Book/:id', deleteBook);
 app.put('/Book/:id', putBook);
+
+
+// basic format of using verification with verification from our auth.js file
+// verifyUser(req, async (err, user) => {
+//   if (err) {
+//     console.log(err);
+//     res.send('invalid token');
+//   } else {
+//     // insert our try try catch logic
+//     // Be careful. check syntax
+//   }
+// })
 
 app.get('/Book', getBook);
 async function getBook(req, res, next) {
